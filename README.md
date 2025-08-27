@@ -77,3 +77,29 @@ Here are the available API endpoints. You can use tools like Postman or Thunder 
     "price": 1200,
     "stock": 50
 }
+
+---
+
+## Testing
+
+This project includes a suite of unit tests to ensure the reliability and correctness of the core business logic. The tests are written using the **Jest** framework.
+
+### Key Areas Tested
+
+-   **Product Controller:**
+    -   Successful creation of a new product.
+    -   Fetching all products and a single product by ID.
+    -   Updating and deleting existing products.
+    -   Error handling for invalid input (e.g., missing fields) and non-existent products.
+-   **Order Controller:**
+    -   Successful placement of a new order, ensuring product stock is correctly decremented.
+    -   Error handling for insufficient stock.
+    -   Logic for restoring product stock when an order is cancelled.
+    -   Fetching all orders and orders by a specific customer.
+
+### How to Run Tests
+
+To run the entire test suite, use the following command from the project's root directory:
+
+```bash
+npm test
