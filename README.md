@@ -77,6 +77,7 @@ Here are the available API endpoints. You can use tools like Postman or Thunder 
     "price": 1200,
     "stock": 50
 }
+```
 
 ## Testing
 
