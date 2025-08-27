@@ -40,14 +40,30 @@ Follow these instructions to get the project up and running on your local machin
     ```
 
 3.  **Set up environment variables:**
-Create a file named `.env` in the root of the project directory and add the following environment variables.
+    Create a file named `.env` in the root of the project directory. This file will hold your environment-specific configurations.
 
-    ```env
-    PORT=3000
-    MONGODB_URI=
-    ```
-    You will need to replace the value of MONGODB_URI with your own connection string from MongoDB Atlas. It should look something like this:
-    mongodb+srv://<username>:<password>@yourcluster.mongodb.net/your_database_name?retryWrites=true&w=majority
+    You can choose to connect to either a local MongoDB database or a cloud-hosted MongoDB Atlas cluster.
+
+    #### Option A: Using MongoDB Atlas (Recommended)
+
+    1.  Copy the following into your `.env` file:
+        ```env
+        PORT=3000
+        MONGODB_URI=
+        ```
+    2.  Replace the value of `MONGODB_URI` with your own connection string from MongoDB Atlas. It should look like this:
+        `mongodb+srv://<username>:<password>@yourcluster.mongodb.net/your_database_name?retryWrites=true&w=majority`
+
+    #### Option B: Using a Local MongoDB Database
+
+    1.  Ensure you have MongoDB Community Server installed and running on your machine.
+    2.  Copy the following into your `.env` file:
+        ```env
+        PORT=3000
+        MONGODB_URI=mongodb://localhost:27017/inventory_order_db
+        ```
+        -   You can change `inventory_order_db` to any database name you prefer.
+        -   **Note:** Using a local standalone MongoDB instance does not support transactions. The "Place Order" feature will work, but without the atomicity guarantee provided by transactions.
 
 4.  **Run the development server:**
     ```bash
