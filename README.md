@@ -73,28 +73,238 @@ Follow these instructions to get the project up and running on your local machin
 
 ---
 
-## API Endpoints
+---
 
-Here are the available API endpoints. You can use tools like Postman or Thunder Client to test them.
+## API Documentation
+
+The base URL for all API endpoints is `http://localhost:3000`.
 
 ### Product Management
 
-| Method | Endpoint              | Description                      |
-| :----- | :-------------------- | :------------------------------- |
-| `POST` | `/api/products`       | Create a new product             |
-| `GET`  | `/api/products`       | Get a list of all products       |
-| `GET`  | `/api/products/:id`   | Get a single product by its ID   |
-| `PUT`  | `/api/products/:id`   | Update an existing product       |
-| `DELETE`| `/api/products/:id`  | Delete a product                 |
+---
 
-**Example `POST /api/products` Body:**
-```json
-{
-    "name": "Laptop",
-    "price": 1200,
-    "stock": 50
-}
-```
+#### 1. Create a New Product
+
+Creates a new product in the inventory.
+
+-   **Endpoint:** `POST /api/products`
+-   **Access:** Admin
+-   **Request Body:** `application/json`
+
+    ```json
+    {
+        "name": "Gaming Keyboard",
+        "price": 75.50,
+        "stock": 120
+    }
+    ```
+
+-   **Success Response (201 Created):**
+
+    ```json
+    {
+        "_id": "65e9b3a4f8b9c0d1e2f3g4h5",
+        "name": "Gaming Keyboard",
+        "price": 75.50,
+        "stock": 120,
+        "createdAt": "2024-03-07T12:00:00.000Z",
+        "updatedAt": "2024-03-07T12:00:00.000Z"
+    }
+    ```
+
+-   **Error Responses (400 Bad Request):**
+    -   If required fields are missing:
+        ```json
+        {
+            "message": "Please enter all fields: name, price, and stock"
+        }
+        ```
+    -   If a product with the same name already exists:
+        ```json
+        {
+            "message": "A product with this name already exists."
+        }
+        ```
+
+---
+
+#### 2. Get All Products
+
+Retrieves a list of all available products.
+
+-   **Endpoint:** `GET /api/products`
+-   **Access:** Public
+-   **Success Response (200 OK):**
+    Returns an array of product objects.
+    ```json
+    [
+        {
+            "_id": "65e9b3a4f8b9c0d1e2f3g4h5",
+            "name": "Gaming Keyboard",
+            "price": 75.50,
+            "stock": 120,
+            "createdAt": "...",
+            "updatedAt": "..."
+        },
+        {
+            "_id": "65e9b3b5f8b9c0d1e2f3g4h6",
+            "name": "Laptop",
+            "price": 1200,
+            "stock": 50,
+            "createdAt": "...",
+            "updatedAt": "..."
+        }
+    ]
+    ```
+
+---
+
+#### 3. Get a Single Product
+
+Retrieves a single product by its unique ID.
+
+-   **Endpoint:** `GET /api/products/:id`
+-   **Access:** Public
+-   **Success Response (200 OK):**
+    Returns the product object.
+-   **Error Response (404 Not Found):**
+    If the product with the specified ID does not exist.
+    ```json
+    {
+        "message": "Product not found"
+    }
+    ```
+
+---
+
+#### 4. Update a Product
+
+Updates the details of an existing product.
+
+-   **Endpoint:** `PUT /api/products/:id`
+-   **Access:** Admin
+-   **Request Body:** `application/json`
+    (You can include any fields you want to update)
+    ```json
+    {
+        "price": 70,
+        "stock": 110
+    }
+    ```
+-   **Success Response (200 OK):**
+    Returns the updated product object.
+-   **Error Response (404 Not Found):**
+    If the product to be updated does not exist.
+
+---
+
+#### 5. Delete a Product
+
+Deletes a product from the inventory.
+
+-   **Endpoint:** `DELETE /api/products/:id`
+-   **Access:** Admin
+-   **Success Response (200 OK):**
+    ```json
+    {
+        "message": "Product deleted successfully",
+        "deletedProduct": {
+            "_id": "65e9b3a4f8b9c0d1e2f3g4h5",
+            "name": "Gaming Keyboard",
+            "price": 70,
+            "stock": 110,
+            "createdAt": "...",
+            "updatedAt": "..."
+        }
+    }
+    ```
+-   **Error Response (404 Not Found):**
+    If the product to be deleted does not exist.
+
+---
+### Order Management
+
+---
+
+#### 1. Place a New Order
+
+Creates a new customer order. This process is transactional; it will either succeed completely or fail without changing any data.
+
+-   **Endpoint:** `POST /api/orders`
+-   **Access:** Customer/Admin
+-   **Request Body:** `application/json`
+    ```json
+    {
+        "customer_name": "John Doe",
+        "items": [
+            {
+                "product_id": "65e9b3b5f8b9c0d1e2f3g4h6",
+                "quantity": 1
+            },
+            {
+                "product_id": "65e9b3a4f8b9c0d1e2f3g4h5",
+                "quantity": 2
+            }
+        ]
+    }
+    ```
+-   **Success Response (201 Created):**
+    Returns the newly created order object with a calculated `total_price`.
+-   **Error Responses (400 Bad Request):**
+    -   If product stock is insufficient:
+        ```json
+        {
+            "message": "Insufficient stock for product: Laptop. Available: 50, Requested: 51"
+        }
+        ```
+    -   If a `product_id` is invalid:
+        ```json
+        {
+            "message": "Product with ID 65e9b3b5f8b9c0d1e2f3g4h6 not found."
+        }
+        ```
+
+---
+
+#### 2. Get All Orders
+
+Retrieves a list of all customer orders, sorted by the most recent.
+
+-   **Endpoint:** `GET /api/orders`
+-   **Access:** Admin
+-   **Success Response (200 OK):**
+    Returns an array of order objects.
+
+---
+
+#### 3. Get Orders by Customer
+
+Retrieves all orders placed by a specific customer.
+
+-   **Endpoint:** `GET /api/orders/customer/:customerName`
+-   **Access:** Admin
+-   **Success Response (200 OK):**
+    Returns an array of order objects for the specified customer.
+
+---
+
+#### 4. Update Order Status
+
+Updates the status of an existing order (e.g., from 'pending' to 'completed' or 'cancelled'). If the status is changed to 'cancelled', the stock for the products in the order will be restored.
+
+-   **Endpoint:** `PUT /api/orders/:id/status`
+-   **Access:** Admin
+-   **Request Body:** `application/json`
+    ```json
+    {
+        "status": "completed"
+    }
+    ```
+-   **Success Response (200 OK):**
+    Returns the updated order object.
+-   **Error Responses:**
+    -   **400 Bad Request:** If the provided status is invalid.
+    -   **404 Not Found:** If the order to be updated does not exist.
 
 ## Testing
 
