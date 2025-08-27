@@ -84,16 +84,19 @@ This project includes a suite of unit tests to ensure the reliability and correc
 
 ### Key Areas Tested
 
--   **Product Controller:**
-    -   Successful creation of a new product.
-    -   Fetching all products and a single product by ID.
-    -   Updating and deleting existing products.
-    -   Error handling for invalid input (e.g., missing fields) and non-existent products.
--   **Order Controller:**
-    -   Successful placement of a new order, ensuring product stock is correctly decremented.
-    -   Error handling for insufficient stock.
-    -   Logic for restoring product stock when an order is cancelled.
-    -   Fetching all orders and orders by a specific customer.
+**Product Controller:**
+
+- Successful creation of a new product.
+- Fetching all products and a single product by ID.
+- Updating and deleting existing products.
+- Error handling for invalid input (e.g., missing fields) and non-existent products.
+
+**Order Controller:**
+
+- Successful placement of a new order, ensuring product stock is correctly decremented.
+- Error handling for insufficient stock.
+- Logic for restoring product stock when an order is cancelled.
+- Fetching all orders and orders by a specific customer.
 
 ### How to Run Tests
 
