@@ -40,13 +40,14 @@ Follow these instructions to get the project up and running on your local machin
     ```
 
 3.  **Set up environment variables:**
-    Create a `.env` file in the root directory and add the following variables.
+Create a file named `.env` in the root of the project directory and add the following environment variables.
 
-    ```env
-    PORT=3000
-    MONGODB_URI=mongodb+srv://soehtetlin1997:LTUFPtym2cCYQdc6@inventorycluster.xvvl3jh.mongodb.net/inventory_order_db?retryWrites=true&w=majority
-    ```
-    *Replace `mongodb+srv://soehtetlin1997:LTUFPtym2cCYQdc6@inventorycluster.xvvl3jh.mongodb.net/inventory_order_db?retryWrites=true&w=majority` with your own connection string from MongoDB Atlas.*
+```env
+PORT=3000
+MONGODB_URI=
+'''
+You will need to replace the value of MONGODB_URI with your own connection string from MongoDB Atlas. It should look something like this:
+mongodb+srv://<username>:<password>@yourcluster.mongodb.net/your_database_name?retryWrites=true&w=majority
 
 4.  **Run the development server:**
     ```bash
