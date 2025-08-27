@@ -1,4 +1,3 @@
-// controllers/productController.js
 const Product = require('../models/Product'); // Import the Product Model
 
 // @desc    Get all products
@@ -59,9 +58,9 @@ exports.createProduct = async (req, res) => {
     });
 
     // Save the new product to the database
-    await newProduct.save();
+    const savedProduct = await newProduct.save();
     // Respond with 201 Created and the new product data
-    res.status(201).json(newProduct);
+    res.status(201).json(savedProduct);
   } catch (error) {
     // Handle duplicate key error (if a product with the same name already exists)
     if (error.code === 11000) {

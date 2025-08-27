@@ -1,4 +1,3 @@
-// controllers/orderController.js
 const Order = require('../models/Order');     // Import the Order Model
 const Product = require('../models/Product'); // Import the Product Model
 const mongoose = require('mongoose');         // Import mongoose for using Transactions
@@ -57,14 +56,14 @@ exports.placeOrder = async (req, res) => {
       status: 'pending'
     });
 
-    await newOrder.save({ session }); // Save the new order within the session
+  const savedOrder = await newOrder.save({ session }); // Save the new order within the session
 
     // If all operations were successful, commit the transaction
     await session.commitTransaction();
     // End the session
     session.endSession();
 
-    res.status(201).json(newOrder);
+    res.status(201).json(savedOrder);
 
   } catch (error) {
     // If any error occurred, abort the entire transaction
