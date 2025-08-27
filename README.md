@@ -78,8 +78,6 @@ Here are the available API endpoints. You can use tools like Postman or Thunder 
     "stock": 50
 }
 
----
-
 ## Testing
 
 This project includes a suite of unit tests to ensure the reliability and correctness of the core business logic. The tests are written using the **Jest** framework.
